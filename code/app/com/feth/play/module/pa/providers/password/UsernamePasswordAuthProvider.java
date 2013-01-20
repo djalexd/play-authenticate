@@ -50,7 +50,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	}
 
 	protected enum LoginResult {
-		USER_UNVERIFIED, USER_LOGGED_IN, NOT_FOUND, WRONG_PASSWORD
+		USER_UNVERIFIED, USER_LOGGED_IN, NOT_FOUND, WRONG_PASSWORD, USER_LOCKED, COMPANY_DISABLED
 	}
 
 	public static interface UsernamePassword {
@@ -119,12 +119,26 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 			case NOT_FOUND:
 				// forward to login page
 				return onLoginUserNotFound(context);
+			case USER_LOCKED:
+				// forward to login page
+				return onLoginUserLocked(context);
+			case COMPANY_DISABLED:
+				// forward to login page
+				return onLoginUserCompanyDisabled(context);
 			default:
 				throw new AuthException("Something in login went wrong");
 			}
 		} else {
 			return PlayAuthenticate.getResolver().login().url();
 		}
+	}
+
+	protected String onLoginUserLocked(Context context) {
+		return PlayAuthenticate.getResolver().login().url();
+	}
+
+	protected String onLoginUserCompanyDisabled(Context context) {
+		return PlayAuthenticate.getResolver().login().url();
 	}
 
 	protected String onLoginUserNotFound(Context context) {
