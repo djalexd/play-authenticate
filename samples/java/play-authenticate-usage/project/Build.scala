@@ -1,6 +1,6 @@
 import sbt._
 import Keys._
-import PlayProject._
+import play.Project._
 
 object ApplicationBuild extends Build {
 
@@ -8,18 +8,22 @@ object ApplicationBuild extends Build {
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
-      "be.objectify"  %%  "deadbolt-2"        % "1.1.3-SNAPSHOT",
-      "com.feth"      %%  "play-authenticate" % "0.2.3-SNAPSHOT",
-      "postgresql"    %   "postgresql"        % "9.1-901.jdbc4"
+      "be.objectify"  %%  "deadbolt-java"     % "2.1-SNAPSHOT",
+      // Comment this for local development of the Play Authentication core
+      "com.feth"      %%  "play-authenticate" % "0.2.5-SNAPSHOT",
+      "postgresql"    %   "postgresql"        % "9.1-901-1.jdbc4",
+      javaCore,
+      javaJdbc,
+      javaEbean
     )
     
 //  Uncomment this for local development of the Play Authenticate core:
 /*
-    val playAuthenticate = PlayProject(
-      "play-authenticate", "1.0-SNAPSHOT", mainLang = JAVA, path = file("modules/play-authenticate")
+    val playAuthenticate = play.Project(
+      "play-authenticate", "1.0-SNAPSHOT", Seq(javaCore), path = file("modules/play-authenticate")
     ).settings(
       libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.2",
-      libraryDependencies += "com.feth" %% "play-easymail" % "0.1-SNAPSHOT",
+      libraryDependencies += "com.feth" %% "play-easymail" % "0.2-SNAPSHOT",
       libraryDependencies += "org.mindrot" % "jbcrypt" % "0.3m",
       libraryDependencies += "commons-lang" % "commons-lang" % "2.6",
 
@@ -28,9 +32,10 @@ object ApplicationBuild extends Build {
     )
 */
 
-    val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
-      resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
-      resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
+    val main = play.Project(appName, appVersion, appDependencies).settings(
+
+      resolvers += Resolver.url("Objectify Play Repository (release)", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
+      resolvers += Resolver.url("Objectify Play Repository (snapshot)", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
 
       resolvers += Resolver.url("play-easymail (release)", url("http://joscha.github.com/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
       resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),

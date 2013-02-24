@@ -1,11 +1,15 @@
-# play-authenticate - An extensible authentication plugin for Play 2.0 (Java)
+# play-authenticate - An extensible authentication plugin for Play! Framework 2 (Java)
 
 This plugin uses concepts from [securesocial2][] and [Play20StartApp][] and provides a sample containing code from [deadbolt2][].
 
 #### Version information
 **Play Authenticate currently needs Play! Framework 2.0.2 or later**
 
-Works fine with 2.0 to 2.0.4 and there is a 2.1 branch which should work with 2.1rc1
+Works fine with `2.0` to `2.0.4` and `2.1.0`.
+
+> **Attention 2.0.x developers**  
+>_There is a `0.2.3-SNAPSHOT` binary for Play `2.0.x` and an accompanying sample application in the [2.0.x branch](https://github.com/joscha/play-authenticate/tree/2.0.x). This sample differs substantially from the version for `2.1` though, because the deadbolt dependency changed. So if you plan on releasing for `2.0.x` don't take the `2.1` sample from the master stream and vice versa._
+
 
 ## Live demo
 You can find a live demo on [heroku](https://play-authenticate.herokuapp.com/ "Play Authenticate sample app") (might not always be the latest version) and there are some screens on our [website](http://joscha.github.com/play-authenticate/).
@@ -46,7 +50,11 @@ The included sample application shows how to use all of those providers.
 ## Versions
 * **TRUNK** [not released in the repository, yet]
   * nothing, yet - wanna contribute something? :)
-* **0.2.3-SNAPSHOT** [2012-12-17]
+* **0.2.5-SNAPSHOT** [2013-02-14]
+  * Fix for users signing up that shall be logged in straight away. **PLEASE NOTE: Breaking change!!! Upgrading to this version requires you to add one additional method to your custom UsernamePasswordAuthProvider. Have a look at the sample to see a default implementation that should work for almost everyone.**
+* **0.2.4-SNAPSHOT** [2013-02-06]
+  * First version for Play! Framework 2.1.0. 
+* **0.2.3-SNAPSHOT** [2012-12-17] _(last version for Play 2.0.x)_
   * Use reflection for email templates in samples to allow easier addition of new languages (thanks @biesoir for the initial version)
   * Linkedin added (thanks @tonygwu)
 * **0.2.2-SNAPSHOT** [2012-11-07]
