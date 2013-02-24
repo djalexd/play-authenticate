@@ -43,10 +43,12 @@ public abstract class PlayAuthenticate {
 		 * the setting
 		 * afterAuthFallback
 		 * You can use this to redirect to an external URL for example.
-		 * 
+		 * @param ctx The context that was set up after a successful authentication
+                 * @param authUser User that authenticated. Can be used to customize 
+                 * the redirect url according to business rules, per user.
 		 * @return
 		 */
-		public abstract Call afterAuth();
+		public abstract Call afterAuth(Context ctx, AuthUser authUser);
 
 		/**
 		 * This should usually point to the route where you registered
@@ -337,12 +339,12 @@ public abstract class PlayAuthenticate {
 		removeFromCache(session, LINK_USER_KEY);
 	}
 
-	private static String getJumpUrl(final Context ctx) {
+	private static String getJumpUrl(final Context ctx, final AuthUser authUser) {
 		final String originalUrl = getOriginalUrl(ctx);
 		if (originalUrl != null) {
 			return originalUrl;
 		} else {
-			return getUrl(getResolver().afterAuth(),
+			return getUrl(getResolver().afterAuth(ctx, authUser),
 					SETTING_KEY_AFTER_AUTH_FALLBACK);
 		}
 	}
@@ -394,7 +396,7 @@ public abstract class PlayAuthenticate {
 	public static Result loginAndRedirect(final Context context,
 			final AuthUser loginUser) {
 		storeUser(context.session(), loginUser);
-		return Controller.redirect(getJumpUrl(context));
+		return Controller.redirect(getJumpUrl(context, loginUser));
 	}
 
 	public static Result merge(final Context context, final boolean merge) {
